@@ -6,6 +6,7 @@ import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
 import io.restassured.response.Response;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,11 +16,12 @@ import com.wrc.qa.base.TestBase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static io.restassured.RestAssured.given;
 
 
-public class LoginPage extends TestBase{
+public class HomePage extends TestBase{
 
 	private String getCity = prop.getProperty("city");
 
@@ -30,7 +32,7 @@ public class LoginPage extends TestBase{
 	private List<String> whetherData = new ArrayList<>();
 
 	//Page Factory - OR:
-	@FindBy(id="h_sub_menu")
+	@FindBy(xpath="//*[@id=\"h_sub_menu\"]")
 	WebElement subMenu;
 	
 	@FindBy(xpath="//*[@id=\"subnav\"]/div/div/div/div/div/a[8]")
@@ -58,16 +60,16 @@ public class LoginPage extends TestBase{
 	List<WebElement> cityOnMap;
 	
 	//Initializing the Page Objects:
-	public LoginPage(){
+	public HomePage(){
 		PageFactory.initElements(driver, this);
 	}
 	
-	public boolean goToWhetherSection() {
+	public boolean goToWhetherSection() throws InterruptedException {
 
-		subMenu = TestUtil.waitTillElementIsClickable(driver, subMenu);
+		Thread.sleep(5000);
 		subMenu.click();
 
-		whetherOption = TestUtil.waitTillElementIsClickable(driver, whetherOption);
+		TestUtil.waitTillElementIsDisplayed(driver, whetherOption);
 		whetherOption.click();
 
 		searchBox = TestUtil.waitTillElementIsDisplayed(driver, searchBox);
@@ -78,12 +80,13 @@ public class LoginPage extends TestBase{
 	public boolean validateSelectedCityOnMap() throws InterruptedException {
 
 		searchBox.sendKeys(prop.getProperty("city"));
+
 		Thread.sleep(2000);
 		searchBox.sendKeys(Keys.ENTER);
 
-		WebElement city = driver.findElement(By.xpath(cityXpath));
-		city.click();
+		TestUtil.waitTillElementIsClickable(driver, driver.findElement(By.xpath(cityXpath)));
 
+		driver.findElement(By.xpath(cityXpath)).click();
 
 		cityOnMap
 				.forEach(i -> {

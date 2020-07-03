@@ -16,12 +16,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class TestUtil extends TestBase {
 
 
-	public static final double minTempratureDiff = 0.1;
-	public static final double maxTempratureDiff = 5;
-	public static final double minWindDiff = 0.1;
-	public static final double maxWindDiff = 5;
-	public static final double minHumidityDiff = 1;
-	public static final double maxHumidityDiff = 15;
+	public static final float minTempratureDiff = (float) 0.1;
+	public static final float maxTempratureDiff = 5;
+	public static final float minWindDiff = (float) 0.01;
+	public static final float maxWindDiff = 5;
+	public static final float minHumidityDiff = 1;
+	public static final float maxHumidityDiff = 30;
+
 
 
 
@@ -44,7 +45,7 @@ public class TestUtil extends TestBase {
 
 	public static WebElement waitTillElementIsClickable(WebDriver driver, WebElement webElement) {
 
-		WebDriverWait wait=new WebDriverWait(driver, 20);
+		 WebDriverWait wait = new WebDriverWait(driver, 20);
 
 		return wait.until(ExpectedConditions.elementToBeClickable(webElement));
 
@@ -52,11 +53,12 @@ public class TestUtil extends TestBase {
 
 	public static WebElement waitTillElementIsDisplayed(WebDriver driver, WebElement webElement) {
 
-		WebDriverWait wait=new WebDriverWait(driver, 20);
+		WebDriverWait wait = new WebDriverWait(driver, 20);
 
 		return wait.until(ExpectedConditions.visibilityOf(webElement));
 
 	}
+
 
 
 }
